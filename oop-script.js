@@ -32,22 +32,38 @@ class APIService {
 class HomePage {
         static container = document.getElementById('container');
 
-
         static renderMovies(movies) {
+
+                const movieRow = document.createElement("div");
+                movieRow.classList.add("row");
+                this.container.appendChild(movieRow);
+
                 movies.forEach(movie => {
+                        /* for (let index = 0; movies.length < 3; index++) {
+                        const movieRow = document.createElement('div');
+                        movieRow.classList.add('col-md-6', 'col-lg-3');
+                        } */
+
                         const movieDiv = document.createElement('div');
+
+                        movieDiv.classList.add('col-md-6', 'col-lg-4');
+
                         const movieImage = document.createElement('img');
                         movieImage.src = `${movie.backdropUrl}`;
+                        movieImage.classList.add("img-fluid", "my-4", "rounded")
                         const movieTitle = document.createElement('h3');
                         movieTitle.textContent = `${movie.title}`;
+                        movieTitle.classList.add("text-center");
                         movieImage.addEventListener('click', function() {
                                 Movies.run(movie);
                         });
 
                         movieDiv.appendChild(movieTitle);
                         movieDiv.appendChild(movieImage);
-                        this.container.appendChild(movieDiv);
-        
+                        
+                        // movieRow.appendChild(movieDiv);
+                        
+                        movieRow.appendChild(movieDiv);
                 });
         }
 }
