@@ -37,7 +37,7 @@ buttons that go to the following pages:
 - A filter dropdown to filter the displayed movies in the home page, based
   on (popular, relase date, top rated, now playing and up coming)
 
-### Footer
+### Footer (done by Zeynep)
 
 Add a universal footer that includes:
 
@@ -45,7 +45,7 @@ Add a universal footer that includes:
 - You and your partner's github link inside an icon and optionally, your social
   media links
 
-### Styling
+### Styling (done by Zeynep)
 
 - Make it so that hovering over the movie makes the mouse pointer icon seem
   clickable. Right now, if you are about to click a movie, it's not obvious that
