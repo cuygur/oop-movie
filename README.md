@@ -37,7 +37,7 @@ buttons that go to the following pages:
 - A filter dropdown to filter the displayed movies in the home page, based
   on (popular, relase date, top rated, now playing and up coming)
 
-### Footer
+### Footer (done by Zeynep)
 
 Add a universal footer that includes:
 
@@ -45,7 +45,7 @@ Add a universal footer that includes:
 - You and your partner's github link inside an icon and optionally, your social
   media links
 
-### Styling
+### Styling (done by Zeynep)
 
 - Make it so that hovering over the movie makes the mouse pointer icon seem
   clickable. Right now, if you are about to click a movie, it's not obvious that
@@ -56,9 +56,9 @@ Add a universal footer that includes:
 ### Styling
 
 - Using CSS and Bootstrap, display the page as a grid with 3 columns (3 movies
-  in the same row)
+  in the same row) //Done
 - Make it responsive where it displays 2 columns for tablets and 1 column for
-  phones
+  phones //Done
 - Style the rest of the page however you like.
 - Add the rating and genres to the movies in the home page and a description
   when you hover over one of them

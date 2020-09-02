@@ -57,13 +57,17 @@ class HomePage {
                         movieImage.addEventListener('click', function() {
                                 Movies.run(movie);
                         });
+                        const movieInfo = document.createElement('div');
+                        movieInfo.classList.add('movieInfo');
+                        movieInfo.textContent = `rating: ${movie.rating}`
 
                         movieDiv.appendChild(movieTitle);
                         movieDiv.appendChild(movieImage);
-                        
+                        movieDiv.appendChild(movieInfo);
                         // movieRow.appendChild(movieDiv);
                         
                         movieRow.appendChild(movieDiv);
+        
                 });
         }
 }
@@ -109,6 +113,8 @@ class Movie {
         static BACKDROP_BASE_URL = 'http://image.tmdb.org/t/p/w780';
 
         constructor(json) {
+                this.rating = json.vote_average;
+                this.genreIds = json.genre_ids;
                 this.id = json.id;
                 this.title = json.title;
                 this.releaseDate = json.release_date;
