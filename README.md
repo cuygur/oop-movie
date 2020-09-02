@@ -56,9 +56,9 @@ Add a universal footer that includes:
 ### Styling
 
 - Using CSS and Bootstrap, display the page as a grid with 3 columns (3 movies
-  in the same row)
+  in the same row) //Done
 - Make it responsive where it displays 2 columns for tablets and 1 column for
-  phones
+  phones //Done
 - Style the rest of the page however you like.
 - Add the rating and genres to the movies in the home page and a description
   when you hover over one of them
