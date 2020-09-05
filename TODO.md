@@ -5,8 +5,8 @@
 Add a universal navbar (it appears on every page) to the home page that includes
 buttons that go to the following pages:
 
-- Home button, takes you to the home page
-- Movies button that has a dropdown list to show different movie genres. For
+- [x ] Home button, takes you to the home page
+- [x ] Movies button that has a dropdown list to show different movie genres. For
   example: Action, Sci-Fi, Comedy ...etc, When you click one of them it should
   load the movies for that genre.
 - Actor list page
