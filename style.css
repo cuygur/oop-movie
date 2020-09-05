@@ -13,3 +13,20 @@
 #container img:hover {
     cursor: pointer;
 }
+
+.movieDescription {
+    display: none;
+}
+
+img:hover + .movieDescription {
+    display: block;
+    position: relative;
+    top: -200px;
+    padding: 10px;
+    margin-bottom: -200px;
+}
+
+img:hover {
+    opacity: 20%;
+    
+}

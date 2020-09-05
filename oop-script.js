@@ -3,8 +3,9 @@
 class App {
         static async run() {
                 const movies = await APIService.fetchMovies();
+                const genres = await APIService.fetchGenres();
                 console.log(movies);
-                HomePage.renderMovies(movies);
+                HomePage.renderMovies(movies, genres);
         }
 }
 
@@ -25,6 +26,18 @@ class APIService {
                 return new Movie(data);
         }
 
+        static async fetchGenres() {
+                const url = APIService._constructUrl('genre/movie/list');
+                const response = await fetch(url);
+                // data = {'genres': [{id: 12, name: 'adventure'}, ...]}
+                const data = await response.json();
+                const genres = data.genres.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name
+                        return acc
+                }, {})
+                return genres;
+        }
+
         static _constructUrl(path) {
                 return `${this.TMDB_BASE_URL}/${path}?api_key=${atob('NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI=')}`;
         }
@@ -33,7 +46,7 @@ class APIService {
 class HomePage {
         static container = document.getElementById('container');
 
-        static renderMovies(movies) {
+        static renderMovies(movies, genres) {
                 const movieRow = document.createElement('div');
                 movieRow.classList.add('row');
                 this.container.appendChild(movieRow);
@@ -43,7 +56,7 @@ class HomePage {
                         const movieRow = document.createElement('div');
                         movieRow.classList.add('col-md-6', 'col-lg-3');
                         } */
-
+                        const movieGenreNames = movie.genreIds.map(genreId => genres[String(genreId)])
                         const movieDiv = document.createElement('div');
 
                         movieDiv.classList.add('col-md-6', 'col-lg-4');
@@ -59,10 +72,15 @@ class HomePage {
                         });
                         const movieInfo = document.createElement('div');
                         movieInfo.classList.add('movieInfo');
-                        movieInfo.textContent = `rating: ${movie.rating}`;
+                        movieInfo.textContent = `rating: ${movie.rating}, genres: ${movieGenreNames}`;
+
+                        const movieDescription = document.createElement('div');
+                        movieDescription.classList.add('movieDescription');
+                        movieDescription.textContent = movie.overview;
 
                         movieDiv.appendChild(movieTitle);
                         movieDiv.appendChild(movieImage);
+                        movieDiv.appendChild(movieDescription);
                         movieDiv.appendChild(movieInfo);
                         // movieRow.appendChild(movieDiv);
 
