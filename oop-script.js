@@ -33,9 +33,8 @@ class HomePage {
         static container = document.getElementById('container');
 
         static renderMovies(movies) {
-
-                const movieRow = document.createElement("div");
-                movieRow.classList.add("row");
+                const movieRow = document.createElement('div');
+                movieRow.classList.add('row');
                 this.container.appendChild(movieRow);
 
                 movies.forEach(movie => {
@@ -50,24 +49,23 @@ class HomePage {
 
                         const movieImage = document.createElement('img');
                         movieImage.src = `${movie.backdropUrl}`;
-                        movieImage.classList.add("img-fluid", "my-4", "rounded")
+                        movieImage.classList.add('img-fluid', 'my-4', 'rounded');
                         const movieTitle = document.createElement('h3');
                         movieTitle.textContent = `${movie.title}`;
-                        movieTitle.classList.add("text-center");
+                        movieTitle.classList.add('text-center');
                         movieImage.addEventListener('click', function() {
                                 Movies.run(movie);
                         });
                         const movieInfo = document.createElement('div');
                         movieInfo.classList.add('movieInfo');
-                        movieInfo.textContent = `rating: ${movie.rating}`
+                        movieInfo.textContent = `rating: ${movie.rating}`;
 
                         movieDiv.appendChild(movieTitle);
                         movieDiv.appendChild(movieImage);
                         movieDiv.appendChild(movieInfo);
                         // movieRow.appendChild(movieDiv);
-                        
+
                         movieRow.appendChild(movieDiv);
-        
                 });
         }
 }
