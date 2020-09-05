@@ -21,7 +21,7 @@ buttons that go to the following pages:
 Add a universal footer that includes:
 
 - Credit to you and your partner for building the website,
-- You and your partner's github link inside an icon and optionally, your social
+You and your partner's github link inside an icon and optionally, your social
   media links
 
 ### Styling
