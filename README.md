@@ -61,7 +61,7 @@ Add a universal footer that includes:
   phones //Done
 - Style the rest of the page however you like.
 - Add the rating and genres to the movies in the home page and a description
-  when you hover over one of them
+  when you hover over one of them //Added rating but not genre, hovering is needed. MovieInfo div should be hidden. Fetch the genre IDs and turn them into string (use map).
 
 ## Single Movie Page
 
