@@ -13,8 +13,8 @@ buttons that go to the following pages:
 - [ x] About page that has a description of the website
 - [ ]Search box where you can type the movie or actor name and display the
   related results.
-- A filter dropdown to filter the displayed movies in the home page, based
-  on (popular, relase date, top rated, now playing and up coming)
+- [ ]A filter dropdown to filter the displayed movies in the home page, based
+  on (popular, release date, top rated, now playing and up coming)
 
 ### Footer
 
@@ -34,12 +34,12 @@ Add a universal footer that includes:
 
 ### Styling
 
-- Using CSS and Bootstrap, display the page as a grid with 3 columns (3 movies
+- [x ] Using CSS and Bootstrap, display the page as a grid with 3 columns (3 movies
   in the same row)
-- Make it responsive where it displays 2 columns for tablets and 1 column for
+- [x ] Make it responsive where it displays 2 columns for tablets and 1 column for
   phones
 - Style the rest of the page however you like.
-- Add the rating and genres to the movies in the home page and a description
+- [x ] Add the rating and genres to the movies in the home page and a description
   when you hover over one of them
 
 ## Single Movie Page
