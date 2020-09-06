@@ -6,12 +6,12 @@ Add a universal navbar (it appears on every page) to the home page that includes
 buttons that go to the following pages:
 
 - [x ] Home button, takes you to the home page
-- [x ] Movies button that has a dropdown list to show different movie genres. For
+- [/ ] Movies button that has a dropdown list to show different movie genres. For
   example: Action, Sci-Fi, Comedy ...etc, When you click one of them it should
   load the movies for that genre.
-- Actor list page
-- About page that has a description of the website
-- Search box where you can type the movie or actor name and display the
+- [/ ] Actor list page
+- [ ] About page that has a description of the website
+- [ ]Search box where you can type the movie or actor name and display the
   related results.
 - A filter dropdown to filter the displayed movies in the home page, based
   on (popular, relase date, top rated, now playing and up coming)
@@ -21,7 +21,7 @@ buttons that go to the following pages:
 Add a universal footer that includes:
 
 - Credit to you and your partner for building the website,
-You and your partner's github link inside an icon and optionally, your social
+  You and your partner's github link inside an icon and optionally, your social
   media links
 
 ### Styling
