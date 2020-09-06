@@ -50,7 +50,9 @@ totally complete, a few more features are needed:
 - [ ]The main 5 actors of the movies in the credit section
 - [ ] The movie language
 - [ ]A related movies section which includes at least five related movies
-- [ ]A trailer section that has the movie trailer from youtube -[ ] The movie production company name and logo -[ ] The director name
+- [ ]A trailer section that has the movie trailer from YouTube
+- [ ] The movie production company name and logo
+- [ ] The director name
 - [ ]The movie rating and how many votes has it received
 
 ### Functionality
@@ -76,12 +78,10 @@ credits in the single movie page.
 
 ### Data Display
 
-[ ]
-
-- The actor name
-- The actor gender
-- A picture of the actor
-- The actor popularity
-- The birthday of the actor and (if available) death day
-- A biography about the actor
-- A list of movies the actor participated in
+- [ ]The actor name
+- [ ]The actor gender
+- [ ]A picture of the actor
+- [ ]The actor popularity
+- [ ] The birthday of the actor and (if available) death day
+- [ ]A biography about the actor
+- [ ]A list of movies the actor participated in
