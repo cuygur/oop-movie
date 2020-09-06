@@ -4,8 +4,13 @@ class App {
         static async run() {
                 const movies = await APIService.fetchMovies();
                 const genres = await APIService.fetchGenres();
-                console.log(movies);
+                const current = await APIService.fetchNowPlaying();
+                // console.log(movies);
+                const currentMovies = document.getElementById('tvShows');
+                let addMovies = movieList => HomePage.renderMovies(movieList, genres);
+                currentMovies.addEventListener('click', ()=> addMovies(current));   
                 HomePage.renderMovies(movies, genres);
+                
         }
 }
 
@@ -32,10 +37,17 @@ class APIService {
                 // data = {'genres': [{id: 12, name: 'adventure'}, ...]}
                 const data = await response.json();
                 const genres = data.genres.reduce((acc, genre) => {
-                        acc[genre.id] = genre.name
-                        return acc
-                }, {})
+                        acc[genre.id] = genre.name;
+                        return acc;
+                }, {});
                 return genres;
+        }
+
+        static async fetchNowPlaying() {
+                const url = APIService._constructUrl('tv/popular');
+                const resp = await fetch(url);
+                const data = await resp.json();
+                return data.results.map(movie => new Movie(movie)); 
         }
 
         static _constructUrl(path) {
@@ -49,6 +61,7 @@ class HomePage {
         static renderMovies(movies, genres) {
                 const movieRow = document.createElement('div');
                 movieRow.classList.add('row');
+                this.container.innerHTML = "";
                 this.container.appendChild(movieRow);
 
                 movies.forEach(movie => {
@@ -56,7 +69,7 @@ class HomePage {
                         const movieRow = document.createElement('div');
                         movieRow.classList.add('col-md-6', 'col-lg-3');
                         } */
-                        const movieGenreNames = movie.genreIds.map(genreId => genres[String(genreId)])
+                        const movieGenreNames = movie.genreIds.map(genreId => genres[String(genreId)]);
                         const movieDiv = document.createElement('div');
 
                         movieDiv.classList.add('col-md-6', 'col-lg-4');
@@ -88,6 +101,8 @@ class HomePage {
                 });
         }
 }
+
+
 
 class Movies {
         static async run(movie) {
@@ -133,7 +148,7 @@ class Movie {
                 this.rating = json.vote_average;
                 this.genreIds = json.genre_ids;
                 this.id = json.id;
-                this.title = json.title;
+                this.title = json.title || json.name;
                 this.releaseDate = json.release_date;
                 this.runtime = `${json.runtime} minutes`;
                 this.overview = json.overview;
