@@ -10,7 +10,7 @@ buttons that go to the following pages:
   example: Action, Sci-Fi, Comedy ...etc, When you click one of them it should
   load the movies for that genre.
 - [/ ] Actor list page
-- [ ] About page that has a description of the website
+- [ x] About page that has a description of the website
 - [ ]Search box where you can type the movie or actor name and display the
   related results.
 - A filter dropdown to filter the displayed movies in the home page, based
@@ -20,13 +20,13 @@ buttons that go to the following pages:
 
 Add a universal footer that includes:
 
-- Credit to you and your partner for building the website,
+- [x ]Credit to you and your partner for building the website,
   You and your partner's github link inside an icon and optionally, your social
   media links
 
 ### Styling
 
-- Make it so that hovering over the movie makes the mouse pointer icon seem
+- [x ] Make it so that hovering over the movie makes the mouse pointer icon seem
   clickable. Right now, if you are about to click a movie, it's not obvious that
   it's clickable.
 
