@@ -7,10 +7,16 @@ class App {
                 const current = await APIService.fetchNowPlaying();
                 // console.log(movies);
                 const currentMovies = document.getElementById('tvShows');
-                let addMovies = movieList => HomePage.renderMovies(movieList, genres);
-                currentMovies.addEventListener('click', ()=> addMovies(current));   
+                const addMovies = movieList => HomePage.renderMovies(movieList, genres);
+                currentMovies.addEventListener('click', () => addMovies(current));
                 HomePage.renderMovies(movies, genres);
-                
+        }
+
+        static async searcher() {
+                const search = document.getElementById('search');
+                const searched = await APIService.fetchSearch();
+                const addMovies = movieList => HomePage.renderMovies(movieList, genres);
+                search.addEventListener('submit', () => addMovies(searched));
         }
 }
 
@@ -47,7 +53,16 @@ class APIService {
                 const url = APIService._constructUrl('tv/popular');
                 const resp = await fetch(url);
                 const data = await resp.json();
-                return data.results.map(movie => new Movie(movie)); 
+                return data.results.map(movie => new Movie(movie));
+        }
+
+        static async fetchSearch() {
+                const searched = document.getElementById('search');
+                const url = APIService._constructUrl(`search/multi&query=${searched}`);
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log(data);
+                return data.results.map(movie => new Movie(movie));
         }
 
         static _constructUrl(path) {
@@ -61,7 +76,7 @@ class HomePage {
         static renderMovies(movies, genres) {
                 const movieRow = document.createElement('div');
                 movieRow.classList.add('row');
-                this.container.innerHTML = "";
+                this.container.innerHTML = '';
                 this.container.appendChild(movieRow);
 
                 movies.forEach(movie => {
@@ -101,8 +116,6 @@ class HomePage {
                 });
         }
 }
-
-
 
 class Movies {
         static async run(movie) {
