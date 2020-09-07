@@ -4,15 +4,27 @@ class App {
         static async run() {
                 const movies = await APIService.fetchMovies();
                 const genres = await APIService.fetchGenres();
-<<<<<<< HEAD
-                console.log(movies);    
-=======
                 const current = await APIService.fetchNowPlaying();
+                const popularMovies = await APIService.fetchPopular();
+                const latestMovies = await APIService.fetchLatest();
+                const topRatedMovies = await APIService.fetchTopRated();
+                const upcomingMovies = await APIService.fetchUpcoming();
                 // console.log(movies);
                 const currentMovies = document.getElementById('tvShows');
                 let addMovies = movieList => HomePage.renderMovies(movieList, genres);
-                currentMovies.addEventListener('click', ()=> addMovies(current));   
->>>>>>> dc55616a93654e337c9b3f472cdc301047f6c442
+                currentMovies.addEventListener('click', ()=> addMovies(current)); 
+                // latest movies 
+                const latestMoviesElement = document.getElementById('latest');
+                latestMoviesElement.addEventListener('click', () => addMovies(latestMovies))
+                // upcoming movies
+                const upcomingMoviesElement = document.getElementById('upcoming');
+                upcomingMoviesElement.addEventListener('click', () => addMovies(upcomingMovies));
+                // popular movies
+                const popularMoviesElement = document.getElementById('popular');
+                popularMoviesElement.addEventListener('click', () => addMovies(popularMovies));
+                // top rated movies
+                const topRatedMoviesElement = document.getElementById('topRated');
+                topRatedMoviesElement.addEventListener('click', () => addMovies(topRatedMovies));
                 HomePage.renderMovies(movies, genres);
                 
         }
@@ -35,6 +47,13 @@ class APIService {
                 return new Movie(data);
         }
 
+        static async fetchActors(movieId) { // to fetch the actors in movie page
+                const url = APIService._constructUrl(`movie/${movieId}/credits`);
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.cast;
+        }
+
         static async fetchGenres() {
                 const url = APIService._constructUrl('genre/movie/list');
                 const response = await fetch(url);
@@ -54,8 +73,40 @@ class APIService {
                 return data.results.map(movie => new Movie(movie)); 
         }
 
-        static _constructUrl(path) {
-                return `${this.TMDB_BASE_URL}/${path}?api_key=${atob('NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI=')}`;
+        static async fetchPopular() {
+                const url = APIService._constructUrl('movie/popular');
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.results.map(movie => new Movie(movie));
+        }
+
+        static async fetchLatest() {
+                const url = APIService._constructUrl('discover/movie', 'sort_by=release_date.desc');
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.results.map(movie => new Movie(movie));
+        }
+
+        static async fetchUpcoming() {
+                const url = APIService._constructUrl(`movie/upcoming`);
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.results.map(movie => new Movie(movie));
+        }
+
+        static async fetchTopRated() {
+                const url = APIService._constructUrl(`movie/top_rated`);
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.results.map(movie => new Movie(movie));
+        }
+
+        static _constructUrl(path, extraParam) {
+                let url = `${this.TMDB_BASE_URL}/${path}?api_key=${atob('NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI=')}`;
+                if (extraParam) {
+                        url += `&${extraParam}` // if there is more than one query (get) parametre, use ampersand
+                } 
+                return url
         }
 }
 
@@ -65,7 +116,7 @@ class HomePage {
         static renderMovies(movies, genres) {
                 const movieRow = document.createElement('div');
                 movieRow.classList.add('row');
-                this.container.innerHTML = "";
+                this.container.innerHTML = ""; // to refresh the movie list in movie div
                 this.container.appendChild(movieRow);
 
                 movies.forEach(movie => {
@@ -111,6 +162,8 @@ class HomePage {
 class Movies {
         static async run(movie) {
                 const movieData = await APIService.fetchMovie(movie.id);
+                const actors = await APIService.fetchActors(movie.id);
+                movieData.actors = actors
                 MoviePage.renderMovieSection(movieData);
                 APIService.fetchActors(movieData);
         }
@@ -141,6 +194,7 @@ class MovieSection {
         </div>
       </div>
       <h3>Actors:</h3>
+      <p>${movie.actors.map(actor => actor.name)}</p>
     `;
         }
 }
@@ -152,7 +206,7 @@ class Movie {
                 this.rating = json.vote_average;
                 this.genreIds = json.genre_ids;
                 this.id = json.id;
-                this.title = json.title || json.name;
+                this.title = json.title || json.name; // title or name for the tv shows and the movies
                 this.releaseDate = json.release_date;
                 this.runtime = `${json.runtime} minutes`;
                 this.overview = json.overview;
@@ -160,7 +214,7 @@ class Movie {
         }
 
         get backdropUrl() {
-                return this.backdropPath ? Movie.BACKDROP_BASE_URL + this.backdropPath : '';
+                return this.backdropPath ? Movie.BACKDROP_BASE_URL + this.backdropPath : 'https://via.placeholder.com/350x200.png';  // placeholder for the missing posters
         }
 }
 
