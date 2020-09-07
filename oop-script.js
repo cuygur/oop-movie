@@ -4,7 +4,7 @@ class App {
         static async run() {
                 const movies = await APIService.fetchMovies();
                 const genres = await APIService.fetchGenres();
-                console.log(movies);
+                console.log(movies);    
                 HomePage.renderMovies(movies, genres);
         }
 }
