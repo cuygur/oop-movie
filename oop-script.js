@@ -231,7 +231,7 @@ class MovieSection {
                         </div>
                         <h3>Actors:</h3>
                         <p>${movie.actors.map(actor => actor.name)}</p>
-                        <div>
+                        <div class="text-center" >
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/${
                                 trailer.results[0].key
                         }" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
