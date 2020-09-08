@@ -4,12 +4,16 @@ class App {
         static async run() {
                 const movies = await APIService.fetchMovies();
                 const genres = await APIService.fetchGenres();
+                HomePage.renderMovies(movies, genres);
                 const current = await APIService.fetchNowPlaying();
                 const popularMovies = await APIService.fetchPopular();
                 const latestMovies = await APIService.fetchLatest();
                 const topRatedMovies = await APIService.fetchTopRated();
                 const upcomingMovies = await APIService.fetchUpcoming();
+                // for popular actors page
+                const popularActors = await APIService.fetchPopularActors();
                 // console.log(movies);
+                
                 const currentMovies = document.getElementById('tvShows');
                 const addMovies = movieList => HomePage.renderMovies(movieList, genres);
                 currentMovies.addEventListener('click', () => addMovies(current));
@@ -25,6 +29,13 @@ class App {
                 // top rated movies
                 const topRatedMoviesElement = document.getElementById('topRated');
                 topRatedMoviesElement.addEventListener('click', () => addMovies(topRatedMovies));
+                // for popular actors page
+                let addActors = actorList => HomePage.renderActors(actorList);
+                const popularActorsPage = document.getElementById('popularActors');
+                popularActorsPage.addEventListener('click', () => addActors(popularActors));
+
+
+                
                 HomePage.renderMovies(movies, genres);
         }
 
@@ -116,6 +127,11 @@ class APIService {
                 return data.results.map(movie => new Movie(movie));
         }
 
+        static async fetchPopularActors() {
+                const url = APIService._constructUrl(`person/popular`);
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.results;
         static async fetchTrailer(movieId) {
                 const url = APIService._constructUrl(`movie/${movieId}/videos`);
                 const response = await fetch(url);
@@ -178,6 +194,30 @@ class HomePage {
                         // movieRow.appendChild(movieDiv);
 
                         movieRow.appendChild(movieDiv);
+                });
+        }
+
+        static renderActors(actors) {
+                const actorRow = document.createElement('div');
+                actorRow.classList.add('row');
+                this.container.innerHTML = ""; // to refresh the movie list in movie div
+                this.container.appendChild(actorRow);
+
+                actors.forEach(actor => {
+                        const actorImagePath = 'http://image.tmdb.org/t/p/w780' + actor.profile_path;
+                        const actorDiv = document.createElement('div');
+
+                        actorDiv.classList.add('col-md-6', 'col-lg-4');
+
+                        const actorImage = document.createElement('img');
+                        actorImage.src = actorImagePath;
+                        actorImage.classList.add('img-fluid', 'my-4', 'rounded');
+                        const actorName = document.createElement('h3');
+                        actorName.textContent = `${actor.name}`;
+                        actorName.classList.add('text-center');
+                        actorDiv.appendChild(actorName);
+                        actorDiv.appendChild(actorImage)
+                        actorRow.appendChild(actorDiv);
                 });
         }
 }
