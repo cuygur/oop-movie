@@ -84,7 +84,7 @@ class APIService {
                 const url = APIService._constructUrl(`search/multi&query=${searched}`);
                 const response = await fetch(url);
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
                 return data.results.map(movie => new Movie(movie));
         }
 
@@ -116,11 +116,12 @@ class APIService {
                 return data.results.map(movie => new Movie(movie));
         }
 
-        static async fetchTrailer(movie_id) {
-                const url = APIService._constructUrl(`movie/{movie_id}/videos`);
+        static async fetchTrailer(movieId) {
+                const url = APIService._constructUrl(`movie/${movieId}/videos`);
                 const response = await fetch(url);
                 const data = await response.json();
-                return data.results.key;
+                // console.log(data)
+                return data;
         }
 
         static _constructUrl(path, extraParam) {
@@ -195,6 +196,7 @@ class Trailers {
         static async run(movie) {
                 const movieData = await APIService.fetchMovie(movie.id);
                 const trailers = await APIService.fetchTrailer(movie.id);
+                // console.log(trailers);
                 movieData.trailers = trailers;
                 MoviePage.renderMovieSection(movieData);
                 APIService.fetchTrailer(movieData);
@@ -210,26 +212,30 @@ class MoviePage {
 }
 
 class MovieSection {
-        static renderMovie(movie) {
+        static async renderMovie(movie) {
+                const trailer = await APIService.fetchTrailer(movie.id);
+                // console.log(trailer.results[0].key);
                 MoviePage.container.innerHTML = `
-      <div class="row">
-        <div class="col-md-4">
-          <img id="movie-backdrop" src=${movie.backdropUrl}> 
-        </div>
-        <div class="col-md-8">
-          <h2 id="movie-title">${movie.title}</h2>
-          <p id="genres">${movie.genres}</p>
-          <p id="movie-release-date">${movie.releaseDate}</p>
-          <p id="movie-runtime">${movie.runtime}</p>
-          <h3>Overview:</h3>
-          <p id="movie-overview">${movie.overview}</p>
-        </div>
-      </div>
-      <h3>Actors:</h3>
-      <p>${movie.actors.map(actor => actor.name)}</p>
-      <div>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/${movie.key}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-    `;
+                        <div class="row">
+                                <div class="col-md-4">
+                                <img id="movie-backdrop" src=${movie.backdropUrl}> 
+                                </div>
+                                <div class="col-md-8">
+                                <h2 id="movie-title">${movie.title}</h2>
+                                <p id="genres">${movie.genres}</p>
+                                <p id="movie-release-date">${movie.releaseDate}</p>
+                                <p id="movie-runtime">${movie.runtime}</p>
+                                <h3>Overview:</h3>
+                                <p id="movie-overview">${movie.overview}</p>
+                                </div>
+                        </div>
+                        <h3>Actors:</h3>
+                        <p>${movie.actors.map(actor => actor.name)}</p>
+                        <div>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/${
+                                trailer.results[0].key
+                        }" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                        `;
         }
 }
 
