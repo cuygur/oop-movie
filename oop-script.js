@@ -15,11 +15,11 @@ class App {
                 // console.log(movies);
                 
                 const currentMovies = document.getElementById('tvShows');
-                let addMovies = movieList => HomePage.renderMovies(movieList, genres);
-                currentMovies.addEventListener('click', ()=> addMovies(current)); 
-                // latest movies 
+                const addMovies = movieList => HomePage.renderMovies(movieList, genres);
+                currentMovies.addEventListener('click', () => addMovies(current));
+                // latest movies
                 const latestMoviesElement = document.getElementById('latest');
-                latestMoviesElement.addEventListener('click', () => addMovies(latestMovies))
+                latestMoviesElement.addEventListener('click', () => addMovies(latestMovies));
                 // upcoming movies
                 const upcomingMoviesElement = document.getElementById('upcoming');
                 upcomingMoviesElement.addEventListener('click', () => addMovies(upcomingMovies));
@@ -36,7 +36,15 @@ class App {
 
 
                 
+                HomePage.renderMovies(movies, genres);
         }
+
+        /* static async searcher() {
+                const search = document.getElementById('search');
+                const searched = await APIService.fetchSearch();
+                const addMovies = movieList => HomePage.renderMovies(movieList, genres);
+                search.addEventListener('submit', () => addMovies(searched));
+        } */
 }
 
 class APIService {
@@ -56,7 +64,8 @@ class APIService {
                 return new Movie(data);
         }
 
-        static async fetchActors(movieId) { // to fetch the actors in movie page
+        static async fetchActors(movieId) {
+                // to fetch the actors in movie page
                 const url = APIService._constructUrl(`movie/${movieId}/credits`);
                 const response = await fetch(url);
                 const data = await response.json();
@@ -79,7 +88,15 @@ class APIService {
                 const url = APIService._constructUrl('tv/popular');
                 const resp = await fetch(url);
                 const data = await resp.json();
-                return data.results.map(movie => new Movie(movie)); 
+                return data.results.map(movie => new Movie(movie));
+        }
+
+        static async fetchSearch(searched) {
+                const url = APIService._constructUrl(`search/multi&query=${searched}`);
+                const response = await fetch(url);
+                const data = await response.json();
+                // console.log(data);
+                return data.results.map(movie => new Movie(movie));
         }
 
         static async fetchPopular() {
@@ -115,14 +132,22 @@ class APIService {
                 const response = await fetch(url);
                 const data = await response.json();
                 return data.results;
+        static async fetchTrailer(movieId) {
+                const url = APIService._constructUrl(`movie/${movieId}/videos`);
+                const response = await fetch(url);
+                const data = await response.json();
+                // console.log(data)
+                return data;
         }
 
         static _constructUrl(path, extraParam) {
-                let url = `${this.TMDB_BASE_URL}/${path}?api_key=${atob('NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI=')}`;
+                let url = `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
+                        'NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI='
+                )}`;
                 if (extraParam) {
-                        url += `&${extraParam}` // if there is more than one query (get) parametre, use ampersand
-                } 
-                return url
+                        url += `&${extraParam}`; // if there is more than one query (get) parametre, use ampersand
+                }
+                return url;
         }
 }
 
@@ -132,7 +157,7 @@ class HomePage {
         static renderMovies(movies, genres) {
                 const movieRow = document.createElement('div');
                 movieRow.classList.add('row');
-                this.container.innerHTML = ""; // to refresh the movie list in movie div
+                this.container.innerHTML = ''; // to refresh the movie list in movie div
                 this.container.appendChild(movieRow);
 
                 movies.forEach(movie => {
@@ -197,15 +222,24 @@ class HomePage {
         }
 }
 
-
-
 class Movies {
         static async run(movie) {
                 const movieData = await APIService.fetchMovie(movie.id);
                 const actors = await APIService.fetchActors(movie.id);
-                movieData.actors = actors
+                movieData.actors = actors;
                 MoviePage.renderMovieSection(movieData);
                 APIService.fetchActors(movieData);
+        }
+}
+
+class Trailers {
+        static async run(movie) {
+                const movieData = await APIService.fetchMovie(movie.id);
+                const trailers = await APIService.fetchTrailer(movie.id);
+                // console.log(trailers);
+                movieData.trailers = trailers;
+                MoviePage.renderMovieSection(movieData);
+                APIService.fetchTrailer(movieData);
         }
 }
 
@@ -218,24 +252,30 @@ class MoviePage {
 }
 
 class MovieSection {
-        static renderMovie(movie) {
+        static async renderMovie(movie) {
+                const trailer = await APIService.fetchTrailer(movie.id);
+                // console.log(trailer.results[0].key);
                 MoviePage.container.innerHTML = `
-      <div class="row">
-        <div class="col-md-4">
-          <img id="movie-backdrop" src=${movie.backdropUrl}> 
-        </div>
-        <div class="col-md-8">
-          <h2 id="movie-title">${movie.title}</h2>
-          <p id="genres">${movie.genres}</p>
-          <p id="movie-release-date">${movie.releaseDate}</p>
-          <p id="movie-runtime">${movie.runtime}</p>
-          <h3>Overview:</h3>
-          <p id="movie-overview">${movie.overview}</p>
-        </div>
-      </div>
-      <h3>Actors:</h3>
-      <p>${movie.actors.map(actor => actor.name)}</p>
-    `;
+                        <div class="row">
+                                <div class="col-md-4">
+                                <img id="movie-backdrop" src=${movie.backdropUrl}> 
+                                </div>
+                                <div class="col-md-8">
+                                <h2 id="movie-title">${movie.title}</h2>
+                                <p id="genres">${movie.genres}</p>
+                                <p id="movie-release-date">${movie.releaseDate}</p>
+                                <p id="movie-runtime">${movie.runtime}</p>
+                                <h3>Overview:</h3>
+                                <p id="movie-overview">${movie.overview}</p>
+                                </div>
+                        </div>
+                        <h3>Actors:</h3>
+                        <p>${movie.actors.map(actor => actor.name)}</p>
+                        <div class="text-center" >
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/${
+                                trailer.results[0].key
+                        }" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                        `;
         }
 }
 
@@ -254,7 +294,9 @@ class Movie {
         }
 
         get backdropUrl() {
-                return this.backdropPath ? Movie.BACKDROP_BASE_URL + this.backdropPath : 'https://via.placeholder.com/350x200.png';  // placeholder for the missing posters
+                return this.backdropPath
+                        ? Movie.BACKDROP_BASE_URL + this.backdropPath
+                        : 'https://via.placeholder.com/350x200.png'; // placeholder for the missing posters
         }
 }
 
