@@ -13,7 +13,7 @@ class App {
                 // for popular actors page
                 const popularActors = await APIService.fetchPopularActors();
                 // console.log(movies);
-                
+
                 const currentMovies = document.getElementById('tvShows');
                 const addMovies = movieList => HomePage.renderMovies(movieList, genres);
                 currentMovies.addEventListener('click', () => addMovies(current));
@@ -30,12 +30,10 @@ class App {
                 const topRatedMoviesElement = document.getElementById('topRated');
                 topRatedMoviesElement.addEventListener('click', () => addMovies(topRatedMovies));
                 // for popular actors page
-                let addActors = actorList => HomePage.renderActors(actorList);
+                const addActors = actorList => HomePage.renderActors(actorList);
                 const popularActorsPage = document.getElementById('popularActors');
                 popularActorsPage.addEventListener('click', () => addActors(popularActors));
 
-
-                
                 HomePage.renderMovies(movies, genres);
         }
 
@@ -132,6 +130,8 @@ class APIService {
                 const response = await fetch(url);
                 const data = await response.json();
                 return data.results;
+        }
+
         static async fetchTrailer(movieId) {
                 const url = APIService._constructUrl(`movie/${movieId}/videos`);
                 const response = await fetch(url);
@@ -200,11 +200,11 @@ class HomePage {
         static renderActors(actors) {
                 const actorRow = document.createElement('div');
                 actorRow.classList.add('row');
-                this.container.innerHTML = ""; // to refresh the movie list in movie div
+                this.container.innerHTML = ''; // to refresh the movie list in movie div
                 this.container.appendChild(actorRow);
 
                 actors.forEach(actor => {
-                        const actorImagePath = 'http://image.tmdb.org/t/p/w780' + actor.profile_path;
+                        const actorImagePath = `http://image.tmdb.org/t/p/w780${actor.profile_path}`;
                         const actorDiv = document.createElement('div');
 
                         actorDiv.classList.add('col-md-6', 'col-lg-4');
@@ -216,7 +216,7 @@ class HomePage {
                         actorName.textContent = `${actor.name}`;
                         actorName.classList.add('text-center');
                         actorDiv.appendChild(actorName);
-                        actorDiv.appendChild(actorImage)
+                        actorDiv.appendChild(actorImage);
                         actorRow.appendChild(actorDiv);
                 });
         }
