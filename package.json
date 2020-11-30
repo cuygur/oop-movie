@@ -1,4 +1,5 @@
 {
+  "homepage": "https://cuygur.github.io/oop-movie/",
   "name": "oop-movie",
   "version": "1.0.0",
   "description": "This is a movie database project, where it shows movies, their casts, ratings, trailers, related movies, genres, and so on.",
@@ -7,6 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "type": "git",
     "url": "git+https://github.com/cuygur/oop-movie.git"
   },
@@ -14,6 +17,5 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/cuygur/oop-movie/issues"
-  },
-  "homepage": "https://github.com/cuygur/oop-movie#readme"
+  }
 }
