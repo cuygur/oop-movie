@@ -1,0 +1,19 @@
+{
+  "name": "oop-movie",
+  "version": "1.0.0",
+  "description": "This is a movie database project, where it shows movies, their casts, ratings, trailers, related movies, genres, and so on.",
+  "main": "oop-script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuygur/oop-movie.git"
+  },
+  "author": "Cihan Uygur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cuygur/oop-movie/issues"
+  },
+  "homepage": "https://github.com/cuygur/oop-movie#readme"
+}
